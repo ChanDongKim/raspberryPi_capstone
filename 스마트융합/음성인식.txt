@@ -1,0 +1,37 @@
+방법1
+
+1. 서버 구축
+2. STT 결과값 서버로 전송
+3. 서버에서 받아온 결과값 js파일에서 import
+4. 결과에 해당하는 moduled 가져오기
+---------------------------------------------------------------------------------------
+방법 2
+
+1. 파이썬 코드(transcribe_streaming_mic.py에서 음성인식을 통해 변환된
+txt를 txt파일로 저장함
+2. MagicMirror의 js파일에서 저장된 txt파일을 읽어 해당 텍스트 인식
+3. 인식된 텍스트를 기반으로 해당 작업 수행
+---------------------------------------------------------------------------------------
+
+음성인식 시작 후 말을 시작한 뒤 멈추거나 끝내면 그대로 STT 종료
+ranscribe_streaming_mic.py 파일에서
+streaming_config = types.StreamingRecognitionConfig(
+	config = config,
+	<single_utterance=True,>추가(<>빼고)
+	interim_results=True)
+
+STT 종료 후 txt 출력을 바로 수행할 수 있도록 하는 코드
+
+for response inresponses:
+	<if response.speech_event_type:
+		text = transcript + overwrite_chars
+		print('here is final text: {}' .format(text))
+
+		return text>추가 (<> 빼고)
+	
+	if not response.results:
+		continue
+---------------------------------------------------------------------
+MagicMirror module MMM-Hotword makeing module menual
+
+https://github.com/eouia/MMM-Hotword/blob/master/documents/trainer.md
